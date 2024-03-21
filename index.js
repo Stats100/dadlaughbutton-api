@@ -1,8 +1,10 @@
 const express = require('express');
 const socketIO = require('socket.io-client');
+const cors = require('cors');
 
 const app = express();
 const port = 9001;
+app.use(cors('*'))
 
 const socket = socketIO('https://dadlaughbutton.com/');
 
@@ -17,7 +19,7 @@ socket.on('getCount:connected', function (v) {
     connectedCount = v;
 });
 
-app.get('/counts', (req, res) => {
+app.get('*', (req, res) => {
     res.json({ laughterCount: parseInt(laughterCount.replaceAll(",", "")), connectedCount: parseInt(connectedCount.replaceAll(",", "")) });
 });
 
