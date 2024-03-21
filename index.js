@@ -17,10 +17,6 @@ socket.on('getCount:connected', function (v) {
     connectedCount = v;
 });
 
-setInterval(() => {
-    socket.emit('increment:laughs');
-}, 10);
-
 app.get('/counts', (req, res) => {
     res.json({ laughterCount: parseInt(laughterCount.replaceAll(",", "")), connectedCount: parseInt(connectedCount.replaceAll(",", "")) });
 });
