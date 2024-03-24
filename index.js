@@ -10,17 +10,32 @@ const socket = socketIO('https://dadlaughbutton.com/');
 
 let laughterCount = 0;
 let connectedCount = 0;
+let lastLaughUpdate = 0
+let lastConnectedUpdate = 0;
 
 socket.on('getCount:laughs', function (v) {
     laughterCount = v;
+    lastLaughUpdate = Date.now()
 });
 
 socket.on('getCount:connected', function (v) {
     connectedCount = v;
+    lastConnectedUpdate = Date.now()
 });
 
 app.get('*', (req, res) => {
-    res.json({ laughterCount: parseInt(laughterCount.replaceAll(",", "")), connectedCount: parseInt(connectedCount.replaceAll(",", "")) });
+    res.json({
+        connectedCount: parseInt(connectedCount.replaceAll(",", "")),
+        laughterCount: parseInt(laughterCount.replaceAll(",", "")),
+        lastUpdates: [
+            {
+                lastConnectedUpdate: parseInt(lastConnectedUpdate)
+            },
+            {
+                lastLaughUpdate: parseInt(lastLaughUpdate)
+            }
+        ]
+    });
 });
 
 app.listen(port, () => {
