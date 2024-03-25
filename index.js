@@ -23,19 +23,29 @@ socket.on('getCount:connected', function (v) {
     lastConnectedUpdate = Date.now()
 });
 
+app.get('/uwu', (req, res) => {
+    res.status(200).json("uwu?")
+})
+
 app.get('*', (req, res) => {
-    res.json({
-        connectedCount: parseInt(connectedCount.replaceAll(",", "")),
-        laughterCount: parseInt(laughterCount.replaceAll(",", "")),
-        lastUpdates: [
-            {
-                lastConnectedUpdate: parseInt(lastConnectedUpdate)
-            },
-            {
-                lastLaughUpdate: parseInt(lastLaughUpdate)
-            }
-        ]
-    });
+    try {
+        const parsedConnectedCount = parseInt(connectedCount.replaceAll(",", ""));
+        const parsedLaughterCount = parseInt(laughterCount.replaceAll(",", ""));
+        const parsedLastConnectedUpdate = parseInt(lastConnectedUpdate);
+        const parsedLastLaughUpdate = parseInt(lastLaughUpdate);
+
+        const responseObject = {
+            connectedCount: parsedConnectedCount,
+            laughterCount: parsedLaughterCount,
+            lastConnectedUpdate: parsedLastConnectedUpdate,
+            lastLaughUpdate: parsedLastLaughUpdate
+        };
+
+        res.status(200).json(responseObject);
+    } catch (error) {
+        console.error("Error occurred:", error);
+        res.status(500).json("Internal server error");
+    }
 });
 
 app.listen(port, () => {
