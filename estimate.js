@@ -15,7 +15,6 @@ function estimateData() {
 
     console.log("Estimated laughter count:", estimatedValue);
 
-    // Write the estimated value to a file
     fs.writeFileSync('estimatedValue.txt', String(estimatedValue)); 
 
     return estimatedValue;
