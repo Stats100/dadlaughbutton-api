@@ -1,4 +1,5 @@
 node_modules/
+*.txt
 
 # For me only >:3
 *.py

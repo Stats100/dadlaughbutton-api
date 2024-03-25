@@ -1,6 +1,10 @@
+// index.js
+
 const express = require('express');
 const socketIO = require('socket.io-client');
 const cors = require('cors');
+const fs = require('fs')
+require('./estimate');
 
 const app = express();
 const port = 9001;
@@ -44,7 +48,8 @@ app.get('*', (req, res) => {
         res.status(200).json(responseObject);
     } catch (error) {
         console.error("Error occurred:", error);
-        res.status(500).json("Internal server error");
+        const estimatedValue = fs.readFileSync('estimatedValue.txt', 'utf8');
+        res.status(500).json({ error: "Internal server error", estimatedValue });
     }
 });
 
