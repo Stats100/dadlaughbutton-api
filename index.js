@@ -48,7 +48,7 @@ app.get('*', (req, res) => {
         res.status(200).json(responseObject);
     } catch (error) {
         console.error("Error occurred:", error);
-        const estimatedValue = fs.readFileSync('estimatedValue.txt', 'utf8');
+        const estimatedValue = parseInt(fs.readFileSync('estimatedValue.txt', 'utf8'))
         res.status(500).json({ error: "Internal server error", estimatedValue });
     }
 });
